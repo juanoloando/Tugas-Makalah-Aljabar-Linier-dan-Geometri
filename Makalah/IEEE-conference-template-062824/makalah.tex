@@ -39,6 +39,11 @@
 \def\@IEEEcaplabeldelim{\space}
 \makeatother
 
+
+\renewcommand{\abstractname}{Abstrak}
+
+\renewcommand{\refname}{Daftar Pustaka}
+
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
@@ -47,6 +52,10 @@
 \pagestyle{fancy}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\usepackage[hidelinks,breaklinks=true]{hyperref}
+\urlstyle{same}
+\hypersetup{bookmarks=false}
 \begin{document}
 
 \title{Analisis Matrix Kovarians Bursa Efek Indonesia (BEI) menggunakan PCA untuk Identifikasi Faktor Risiko Utama dan Optimasi Portofolio\\
@@ -62,16 +71,16 @@ Institut Teknologi Bandung, Jl. Ganesha 10 Bandung 40132, Indonesia \\
 \maketitle
 
 \begin{abstract}
-This document is a model and instructions for \LaTeX.
-This and the IEEEtran.cls file define the components of your paper [title, text, heads, etc.]. *CRITICAL: Do Not Use Symbols, Special Characters, Footnotes, 
-or Math in Paper Title or Abstract.
+Makalah ini menganalisis struktur risiko pada pasar saham Indonesia dengan memanfaatkan Principal Component Analysis (PCA) terhadap matriks kovarians return saham. Data harga saham diproses menjadi return log, kemudian distandarisasi untuk menghilangkan perbedaan skala volatilitas antar emiten. Matriks kovarians dihitung untuk menangkap hubungan bersama antar saham, dan PCA diterapkan untuk menguraikan faktor-faktor risiko utama. Hasil menunjukkan bahwa komponen utama pertama (PC1) merepresentasikan faktor pasar yang mendominasi variasi return, sedangkan komponen-komponen berikutnya (PC2 dan PC3) menangkap faktor sektoral seperti keuangan, komoditas/energi, infrastruktur, dan konsumen. Pendekatan berbasis PCA membantu melakukan penyaringan noise pada matriks kovarians, memberikan interpretasi yang lebih jelas atas sumber risiko, serta memberikan informasi terkait kerangka optimasi portofolio yang lebih stabil dan terukur bagi investor di Bursa Efek Indonesia.
 \end{abstract}
 
-\begin{IEEEkeywords}
-component, formatting, style, styling, insert.
-\end{IEEEkeywords}
+\section{Pendahuluan}
+Pada era modern, investasi merupakan salah satu cara untuk menambahkan kekayaan tanpa harus bekerja lebih keras atau masyarakat menyebutnya dengan \textit{passive income}. Salah satu instrumen dalam investasi adalah saham. Investasi saham adalah penanaman modal dalam bentuk penyertaan sejumlah dana oleh seseorang atau badan usaha yang mana melalui instrumen tersebut investor memiliki klaim atas aset dan penghasilan perusahaan serta berhak menghadiri Rapat Umum Pemegang Saham (RUPS). Dalam dunia saham ada yang disebut dengan portofolio, yaitu sekumpulan aset investasi yang dimiliki oleh seorang investor. Portofolio akan menentukan \textit{return} atau imbal hasil yang diinginkan seorang investir agar optimal. Ada tiga faktor utama yakni modal, tujuan dan risiko. 
 
-\section{Introduction}
+Risiko adalah ketidakpastian terhadap hasil yang diharapkan dari suatu investasi. Dalam konteks investasi saham, risiko mengacu pada kemungkinan fluktuasi nilai saham yang dapat menyebabkan kerugian bagi investor. Risiko ini dapat berasal dari berbagai faktor, termasuk perubahan kondisi pasar, kinerja perusahaan, dan faktor eksternal lainnya. 
+
+Manajemen portofolio adalah cara mengelola kumpulan aset untuk mencapai tujuan investasi. Namun, seiring dengan meningkatnya kompleksitas pasar modal, investor seringkali menghadapi tantangan besar dalam mengelola aset dengan dimensi data yang sangat besar, seperti pada indeks LQ45 yang terdiri dari puluhan emiten dengan karakteristik yang berbeda-beda. Diversifikasi tradisional seringkali gagal mengidentifikasi struktur risiko yang tersembunyi, sehingga investor tetap terkena dampak guncangan pasar yang tidak terduga. Oleh karena itu, penelitian ini bertujuan untuk menerapkan metode analisis komponen utama (PCA). PCA adalah teknik untuk mereduksi dimensi data dengan mengubah data asli menjadi sekumpulan variabel baru yang disebut komponen utama. Komponen utama ini adalah kombinasi linier dari variabel asli yang tidak berkorelasi satu sama lain. Dengan menggunakan PCA, faktor utama yang mempengaruhi risiko portofolio dapat diidentifikasi dan dianalisis.
+
 
 \section{TEORI DASAR}
 \subsection{Nilai Eigen dan Vektor Eigen}
@@ -355,56 +364,37 @@ Penelitian ini menunjukkan bahwa struktur risiko saham di Bursa Efek Indonesia (
 Pertama-tama, saya mengucapkan puji dan syukur kepada Tuhan Yang Maha Esa karna atas penyertaannya saya dapat menyelesaikan makalah berjudul "Analisis Matrix Kovarians Bursa Efek Indonesia
 (BEI) menggunakan PCA untuk Identifikasi Faktor
 Resiko Utama dan Optimasi Portofolio". Terima kasih kepada keluarga serta teman-teman saya yang telah memberikan dukungan selama pengerjaan makalah ini. Selain itu, saya mengucapkan terima kasih kepada dosen pengampu mata kuliah Aljabar Linier dan Geometri, Bapak Dr. Ir. Rinaldi Munir, M.T., yang telah memberikan ilmu dan bimbingan selama perkuliahan dan terutama website-nya yang sangat membantu saya dalam menjalani perkuliahan ini serta dalam penyusunan makalah ini. 
+
 \section*{Lampiran}
 Berikut saya lampirkan link GitHub repository yang berisi kode program implementasi dari penelitian ini.
 \begin{itemize}
-    \item \url{
-\section*{Daftar Pustaka}
-\section*{Pernyataan}
-
-
-The preferred spelling of the word ``acknowledgment'' in America is without 
-an ``e'' after the ``g''. Avoid the stilted expression ``one of us (R. B. 
-G.) thanks $\ldots$''. Instead, try ``R. B. G. thanks$\ldots$''. Put sponsor 
-acknowledgments in the unnumbered footnote on the first page.
-
-\section*{References}
-
-Please number citations consecutively within brackets \cite{b1}. The 
-sentence punctuation follows the bracket \cite{b2}. Refer simply to the reference 
-number, as in \cite{b3}---do not use ``Ref. \cite{b3}'' or ``reference \cite{b3}'' except at 
-the beginning of a sentence: ``Reference \cite{b3} was the first $\ldots$''
-
-Number footnotes separately in superscripts. Place the actual footnote at 
-the bottom of the column in which it was cited. Do not put footnotes in the 
-abstract or reference list. Use letters for table footnotes.
-
-Unless there are six authors or more give all authors' names; do not use 
-``et al.''. Papers that have not been published, even if they have been 
-submitted for publication, should be cited as ``unpublished'' \cite{b4}. Papers 
-that have been accepted for publication should be cited as ``in press'' \cite{b5}. 
-Capitalize only the first word in a paper title, except for proper nouns and 
-element symbols.
-
-For papers published in translation journals, please give the English 
-citation first, followed by the original foreign-language citation \cite{b6}.
+    \item GitHub Repository: \url{https://github.com/juanoloando/Tugas-Makalah-Aljabar-Linier-dan-Geometri}
+\end{itemize}
 
 \begin{thebibliography}{00}
-\bibitem{b1} G. Eason, B. Noble, and I. N. Sneddon, ``On certain integrals of Lipschitz-Hankel type involving products of Bessel functions,'' Phil. Trans. Roy. Soc. London, vol. A247, pp. 529--551, April 1955.
-\bibitem{b2} J. Clerk Maxwell, A Treatise on Electricity and Magnetism, 3rd ed., vol. 2. Oxford: Clarendon, 1892, pp.68--73.
-\bibitem{b3} I. S. Jacobs and C. P. Bean, ``Fine particles, thin films and exchange anisotropy,'' in Magnetism, vol. III, G. T. Rado and H. Suhl, Eds. New York: Academic, 1963, pp. 271--350.
-\bibitem{b4} K. Elissa, ``Title of paper if known,'' unpublished.
-\bibitem{b5} R. Nicole, ``Title of paper with only first word capitalized,'' J. Name Stand. Abbrev., in press.
-\bibitem{b6} Y. Yorozu, M. Hirano, K. Oka, and Y. Tagawa, ``Electron spectroscopy studies on magneto-optical media and plastic substrate interface,'' IEEE Transl. J. Magn. Japan, vol. 2, pp. 740--741, August 1987 [Digests 9th Annual Conf. Magnetics Japan, p. 301, 1982].
-\bibitem{b7} M. Young, The Technical Writer's Handbook. Mill Valley, CA: University Science, 1989.
-\bibitem{b8} D. P. Kingma and M. Welling, ``Auto-encoding variational Bayes,'' 2013, arXiv:1312.6114. [Online]. Available: https://arxiv.org/abs/1312.6114
-\bibitem{b9} S. Liu, ``Wi-Fi Energy Detection Testbed (12MTC),'' 2023, gitHub repository. [Online]. Available: https://github.com/liustone99/Wi-Fi-Energy-Detection-Testbed-12MTC
-\bibitem{b10} ``Treatment episode data set: discharges (TEDS-D): concatenated, 2006 to 2009.'' U.S. Department of Health and Human Services, Substance Abuse and Mental Health Services Administration, Office of Applied Studies, August, 2013, DOI:10.3886/ICPSR30122.v2
-\bibitem{b11} K. Eves and J. Valasek, ``Adaptive control for singularly perturbed systems examples,'' Code Ocean, Aug. 2023. [Online]. Available: https://codeocean.com/capsule/4989235/tree
+\bibitem{b1} CRMS Indonesia, "Mengenal Portofolio dan Risiko Investasi," 2023. [Online]. Tersedia: \url{https://crmsindonesia.org/publications/mengenal-portofolio-dan-risiko-investasi/}. [Diakses: 22-Des-2025].
+
+\bibitem{b2} PT Bursa Efek Indonesia, "Data Pasar dan Laporan Perusahaan," 2025. [Online]. Tersedia: \url{https://www.idx.co.id/id}. [Diakses: 22-Des-2025].
+
+\bibitem{b3} OCBC Indonesia, "Investasi Saham adalah: Pengertian, Keuntungan, \& Cara Main," 2021. [Online]. Tersedia: \url{https://www.ocbc.id/id/article/2021/12/27/investasi-saham-adalah}. [Diakses: 23-Des-2025].
+
+\bibitem{b4} Z. Jaadi, "A Step-by-Step Explanation of Principal Component Analysis (PCA)," Built In, 2024. [Online]. Tersedia: \url{https://builtin.com/data-science/step-step-explanation-principal-component-analysis}. [Diakses: 24-Des-2025].
+
+\bibitem{b5} Exsight Indonesia, "PCA (Principal Component Analysis): Pengertian, Cara Kerja, dan Contoh," 2023. [Online]. Tersedia: \url{https://exsight.id/blog/2023/11/06/pca-principal-component-analysis/}. [Diakses: 24-Des-2025].
+
+\bibitem{b6} Z. Jaadi, "A Guide to the Covariance Matrix," Built In, 2024. [Online]. Tersedia: \url{https://builtin.com/data-science/covariance-matrix}. [Diakses: 24-Des-2025].
+
 \end{thebibliography}
 
-\vspace{12pt}
-\color{red}
-IEEE conference templates contain guidance text for composing and formatting conference papers. Please ensure that all template text is removed from your conference paper prior to submission to the conference. Failure to remove the template text from your paper may result in your paper not being published.
+\section*{Pernyataan}
+Dengan ini saya menyatakan bahwa makalah yang saya tulis ini adalah tulisan saya sendiri, bukan saduran, atau terjemahan dari makalah orang lain, dan bukan plagiasi. Saya juga menyatakan bahwa saya menggunakan Gen AI sebagai alat bantu untuk memperaiki tata kalimat dan ejaan.
+
+\begin{flushright}
+Jakarta, 24 Desember 2025\\[0.8em]
+\includegraphics[width=3.5cm]{TTD.jpeg}\\[0.4em]
+Juan Oloando Simanungkalit\\
+13524032
+\end{flushright}
 
 \end{document}
+
