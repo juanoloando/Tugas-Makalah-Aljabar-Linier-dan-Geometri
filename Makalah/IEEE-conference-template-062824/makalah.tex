@@ -1,0 +1,410 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{float} 
+\usepackage{textcomp}
+
+\usepackage[svgnames,dvipsnames]{xcolor}
+
+\definecolor{merah}{RGB}{220,53,69}         
+\definecolor{kuning}{RGB}{255,193,7}        
+\definecolor{lavender}{RGB}{230,230,250}    
+\definecolor{brightlavender}{RGB}{191,148,228}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\lstdefinestyle{code}{
+    commentstyle=\color{lavender},
+    keywordstyle=\color{merah},
+    numberstyle=\tiny\color{brightlavender!40!gray},
+    stringstyle=\color{kuning},
+    basicstyle=\ttfamily\footnotesize, 
+    breaklines=true,
+    numbers=left,                    
+    numbersep=5pt,
+}
+\lstset{style=code}
+
+
+\makeatletter
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}
+ {1.0ex plus 0.2ex minus 0.2ex}
+ {0.5ex plus 0.2ex}
+ {\normalfont\normalsize\bfseries}
+}
+\renewcommand{\figurename}{Gambar}
+\def\@IEEEcaplabeldelim{\space}
+\makeatother
+
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyfoot[C]{\small Makalah IF2123 Aljabar Linier dan Geometri-Teknik Informatika ITB-Semester I Tahun 2025/2026}
+\fancyfoot[R]{\thepage}
+\pagestyle{fancy}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{Analisis Matrix Kovarians Bursa Efek Indonesia (BEI) menggunakan PCA untuk Identifikasi Faktor Risiko Utama dan Optimasi Portofolio\\
+}
+
+\author{\IEEEauthorblockN{Juan Oloando Simanungkalit}
+\IEEEauthorblockA{\textit{Program Studi Teknik Informatika} \\
+\textit{Sekolah Teknik Elektro Dan Informatika}\\
+Institut Teknologi Bandung, Jl. Ganesha 10 Bandung 40132, Indonesia \\
+\textit{13524032@std.stei.itb.ac.id, juanoloando.s@gmail.com}}
+}
+
+\maketitle
+
+\begin{abstract}
+This document is a model and instructions for \LaTeX.
+This and the IEEEtran.cls file define the components of your paper [title, text, heads, etc.]. *CRITICAL: Do Not Use Symbols, Special Characters, Footnotes, 
+or Math in Paper Title or Abstract.
+\end{abstract}
+
+\begin{IEEEkeywords}
+component, formatting, style, styling, insert.
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+\section{TEORI DASAR}
+\subsection{Nilai Eigen dan Vektor Eigen}
+Nilai eigen dan vektor eigen merupakan konsep fundamental dalam aljabar linier yang memiliki aplikasi luas dalam berbagai bidang, salah satunya adalah analisis data. Diberikan matriks persegi $\mathbf{A}$ berukuran \textit{n} x \textit{n}, vektor eigen $v$ (bukan vektor nol) dan nilai eigen $\lambda$ (skalar) memenuhi persamaan berikut:
+\[
+\mathbf{A}v = \lambda v.
+\]
+Interpretasi dari persamaan ini adalah ketikan matriks $\mathbf{A}$ mengalikan vektor eigen $v$ hasilnya adalah vektor $v$ yang diskalakan dengan faktor $\lambda$. Dengan kata lain, vektor eigen adalah vektor yang arahnya tidak berubah oleh transformasi linier yang diwakili oleh matriks $\mathbf{A}$, hanya ukurannya yang berubah sesuai dengan nilai eigen $\lambda$.
+
+Dalam konteks analisis data, nilai dan vektor eigen sering digunakan untuk mengidentifikasi arah utama penyebaran dalam dataset, yang sangat berguna dalam teknik reduksi dimensi seperti Principal Component Analysis (PCA).
+
+\subsection{Dekomposisi Nilai Singular (Singular Value Decomposition)}\label{AA}
+Dalam analisis data, sering kali matriks data $\mathbf{A}$ tidak persegi (jumlah baris tidak sama dengan jumlah kolom).
+Dekomposisi Nilai Singular (SVD) adalah teknik aljabar linier yang memfaktorkan matriks persegi atau persegi panjang menjadi tiga matriks khusus. Untuk matriks $\mathbf{A}$ berukuran \textit{m} x \textit{n} dengan rank $r$, SVD menyatakan bahwa
+\[
+\mathbf{A} = \mathbf{U} \Sigma \mathbf{V}^T,
+\]
+di mana:
+\begin{itemize}
+    \item $\mathbf{U}$ adalah matriks berukuran \textit{m} x \textit{m} yang kolom-kolomnya adalah vektor singular kiri. Vektor-vektor ini adalah ortonormal dan mewakili arah dalam ruang data asli dan merupakan vektor eigen dari matriks $\mathbf{A}\mathbf{A}^T$.
+    \item  $\Sigma$ adalah matriks diagonal berukuran \textit{m} x \textit{n} yang elemen diagonalnya adalah nilai singular dari $\mathbf{A}$. Nilai singular ini adalah akar kuadrat dari nilai eigen dari matriks $\mathbf{A}\mathbf{A}^T$ dan diurutkan dari yang terbesar ke yang terkecil ($\sigma_1 \geq \sigma_2 \geq \ldots \geq \sigma_r > 0$).
+    \item $\mathbf{V}^T$ adalah transpos dari matriks $\mathbf{V}$ berukuran \textit{n} x \textit{n} yang kolom-kolomnya adalah vektor singular kanan. Vektor-vektor ini membentuk basis ortonormal untuk ruang baris dari $\mathbf{A}$ dan merupakan vektor eigen dari matriks $\mathbf{A}^T\mathbf{A}$.
+\end{itemize}
+
+\subsection{Analisis Komponen Utama (Principal Component Analysis)}
+\textit{Principal Component Analysis} (PCA) adalah teknik statistik yang mentransformasi sekumpulan variabel yang saling berkorelasi menjadi sekumpulan variabel baru yang tidak berkorelasi (ortogonal) yang disebut komponen utama (principal components). Tujuan utama PCA adalah untuk mereduksi dimensi data ($R^n$ ke $R^k$ dengan $k < n$) dengan tetap mempertahankan sebanyak mungkin variasi dalam data asli.
+
+Komponen utama pertama (PC1) dibangun dari kombinasi linier dari variabel asli yang memiliki varians terbesar, komponen utama kedua (PC2) adalah kombinasi linier yang ortogonal terhadap PC1 dan memiliki varians terbesar berikutnya, dan seterusnya. Secara matematis, bobot atau \textit{loadings} dari komponen utama ini diperoleh dari vektor eigen dari matriks kovarians atau matriks korelasi data asli.
+
+Pemilihan jumlah komponen utama yang optimal sering kali didasarkan pada proporsi varians kumulatif atau visualisasi \textit{Scree Plot}. Titik "siku" pada \textit{Scree Plot} menunjukkan jumlah komponen utama yang cukup untuk menangkap sebagian besar variasi dalam data tanpa memasukkan terlalu banyak \textit{noise}.\\
+Proses PCA adalah sebagai berikut:
+\begin{enumerate}
+    \item Standarisasi data: Menghitung $\mathbf{Z} = \frac{\mathbf{X} - \mathbf{\mu}}{\mathbf{\sigma}}$
+    \item Menghitung matriks kovarians: $\mathbf{C} = \frac{1}{n-1} \mathbf{Z}^T \mathbf{Z}$
+    \item Menghitung nilai dan vektor eigen dari matriks kovarians: $\mathbf{C}v = \lambda v$
+    \item Memilih komponen utama: Memilih $k$ vektor eigen dengan nilai eigen terbesar.
+    \item Membentuk matriks proyeksi: $\mathbf{W} = [v_1, v_2, \ldots, v_k]$
+    \item Mentransformasikan data asli ke ruang komponen utama: $\mathbf{Y} = \mathbf{Z} \mathbf{W}$
+\end{enumerate}
+
+\subsection{Aplikasi pada Pasar Saham}
+Dalam pasar modal, pergerakan harga saham dipengaruhi oleh informasi yang masuk ke pasar. Informasi ini dapat berupa berita ekonomi, laporan keuangan perusahaan, perubahan suku bunga, dan faktor makroekonomi lainnya. Ketika informasi baru tersedia, investor mulai bertindak dengan membeli atau menjual saham, yang menyebabkan perubahan harga saham. Aplikasi PCA pada analisis pasar saham melibatkan langkah-langkah berikut:
+\begin{enumerate}
+    \item Mengumpulkan data harga saham historis dari berbagai perusahaan yang terdaftar di Bursa Efek Indonesia (BEI).
+    \item Menghitung pengembalian harian atau mingguan dari harga saham untuk menghilangkan tren jangka panjang.
+    \item Membangun matriks kovarians dari pengembalian saham untuk memahami hubungan antar saham.
+    \item Menerapkan PCA pada matriks kovarians untuk mengidentifikasi faktor risiko utama yang mempengaruhi pergerakan harga saham.
+\end{enumerate}
+Intepretasi nilai eigen dan vektor eigen dalam konteks ini adalah sebagai berikut:
+\begin{itemize}
+    \item \textbf{Model Pasar (\textit{Market Mode})}: Nilai eigen terbesar ($\lambda_1$) dari matriks korelasi saham secara konsisten ditemukan jauh lebih besar daripada prediksi acak. Vektor eigen yang bersesuaian memiliki komponen yang seragam untuk semua saham, menunjukkan bahwa faktor risiko utama ini mencerminkan pergerakan pasar secara keseluruhan.
+    \item \textbf{Identifikasi Sektor Industri}: Nilai eigen tersebesar berikutnya ($\lambda_1, \lambda_2, \ldots$) sering kali mengelompokkan saham berdasarkan sektor industri. Vektor-vektor eigen ini menunjukkan bahwa saham-saham dalam sektor yang sama cenderung bergerak bersama, mencerminkan sensitivitas mereka terhadap faktor risiko spesifik sektor.
+    \item \textbf{Penyaringan Kebisingian (\textit{Denoising})}: Menggunakan Teori Matriks Acak (\textit{Random Matrix Theory}), analisis dapat memisahkan spektrum nilai eigen menjadi bagian yang mengandung informasi (sinyal) dan bagian yang konsisten dengan matriks acak (kebisingan). Hanya komponen sinyal yang digunakan untuk rekonstruksi matriks korelasi guna optimasi portofolio yang lebih kuat.
+\end{itemize}
+
+\subsection{Eigen-Portfolio dan Optimasi Portofolio Berbasis PCA}
+Dalam konteks teori portofolio modern, risiko dari portofolio tidak hanya ditentukan oleh violitas (seberapa liat atau tidak stabil harga suatu ase dalam waktu tertentu) dari tiap aset, ada juga faktor penentu lainnya, yaitu struktur korelasi antar aset yang digambarkan atau direpresentasikan dalam bentuk matriks kovarians. Untuk suatu portofolio dengan vektor bobot $\mathbf{w}$, 
+\[
+\mathbf{w} = (w_1, w_2, \ldots, w_n)^T
+\]
+
+dengan matriks kovarians yang berisi return saham $\mathbf{C}$, variansi dari portofolio didefinisikan sebagai:
+\[
+\sigma_p^2 = \mathbf{w}^T \mathbf{C} \mathbf{w}
+\]
+Pendekatan dari teori klasik Markowitz menggunakan matriks kovarians utuh atau penuh dalam proses optimiasi portofolio. Namun, dalam data pasar saham yang berisi jumlah aset yang besar, matriks kovarians cukup sering mengandung \textit{noise}. Oleh karena itu, diperlukan metode untuk menyaring \textit{noise} tersebut supaya optimasi portofolio dapat dilakukan dengan lebih baik. Salah satu caranya adalah mereduksi dimensi matriks kovarians dengan menggunakan teknik PCA.\\
+
+\subsubsection{Hubungan antara PCA dan Risiko Portofolio}
+Pada analisis PCA dilakukan dekomposisi terhadap matriks kovarians $\mathbf{C}$ return saham:
+\[
+\mathbf{C} = \mathbf{V} \Lambda \mathbf{V}^T
+\]
+di mana:
+\begin{itemize}
+    \item $\mathbf{V}$ = $[v1, v2, \ldots, vn]$ adalah matriks vektor eigen ortonormal.
+    \item $\Lambda$ = diagonal$[\lambda_1, \lambda_2, \ldots, \lambda_n]$ adalah matriks diagonal yang berisi nilai eigen.
+\end{itemize}
+Setiap pasangan $(\lambda_i,v_i)$ melambangkan satu faktor risiko independen yang ortogonal, di mana:
+\begin{itemize}
+    \item Nilai eigen $\lambda_i$ menunjukkan besarnya kontribusi faktor risiko tersebut terhadap total variansi portofolio.
+    \item Vektor eigen $v_i$ memberikan bobot relatif dari setiap aset dalam portofolio terhadap faktor risiko tersebut.\\
+\end{itemize}
+
+\subsubsection{Definsi Eigen-Portofolio}
+Eigen portofolio merupakan portofolio yang bobot asetnya ditentukan oleh vektor eigen dari matriks kovarians return saham. Bobot eigen portofolio ke-$i$ memiliki rumus:
+\[
+\mathbf{w}_i = \frac{v_i}{\sum_{j=1}^{n} v_{ij}}
+\]
+Return eigen portofolio ke-$i$ pada waktu $t$ dihitung dengan rumus:
+\[
+r_{t}^{(i)} = w_i^T r_t
+\]
+di mana $r_t$ adalah vektor return saham pada waktu ke-$t$.
+
+\subsubsection{Interpretasi Geometris Eigen-Portofolio}
+Secara geometris, eigen portofolio dapat dipandang sebagai basis ortonormal baru dalam ruang return saham. Transformasi oleh prosedur PCA memetakan data return dari basis standar ke basis vektor eigen:
+\[
+Z = XV
+\]
+di mana $X$ adalah matriks return yang sudah di standarisasi dan $Z$ adalah skor komponen utama. 
+Dalam konteks ini:
+\begin{itemize}
+    \item Setiap sumbu utama merepresentasikan satu arah risiko independen.
+    \item Proyeksi data return saham ke sumbu tersebut menghailkan eigen portofolio.
+\end{itemize}
+Dengan hanya menggunakan beberapa komponen utama, portofoilio dapat dianalisis dengan ruang dimensi yang lebih rendah, sehingga memudahkan dalam pengelolaan risiko dan mengurangi kompleksitas atau \textit{noise}.
+
+\subsubsection{Optimasi Portofolio Berbasis PCA}
+Dengan pemanfaatan dekomposisi PCA, matriks kovarians dapat dibangun ulang atau direkonstruksi menggunakan hanya $k$ komponen utama teratas:
+\[
+\mathbf{C}_k = \sum_{i=1}^{k} \lambda_i v_i v_i^T
+\]
+Pendekatan dengan PCA ini membuat optimasi portofolio dilakukan pada struktur risiko utama yang lebih stabil dan tanpa harus mempertimbangkan seluruh dimensi dataset atau ruang aset. Beberapa kelebihan dari optimasi portofolio menggunakan teknik PCA:
+\begin{itemize}
+    \item Lebih stabil terhadap \textit{noise} dalam data pasar saham.
+    \item Memiliki interpretasi faktor risiko yang lebih jelas.
+    \item Lebih kuat pada data pasar saham yang memiliki jumlah aset yang besar atau korelasi yang tinggi antar aset.
+\end{itemize}
+
+\subsubsection{Relevansi terhadap Pasar Saham Indonesia}
+Dalam konteks pasar saham Indonesia, eigen portofolio yang dihasilkan dari analisis PCA dapat memberikan informasi baru mengenai faktor risiko utama yang mempengaruhi pergerakan harga saham di BEI. Dengan memahami faktor-faktor ini, para investor dapat membuat suatu keputusan investasi yang lebih baik dan mengelola risiko portofolio dengan lebih untung dan efektif
+
+\section{Implementasi dan Hasil}
+Pada bagian ini akan dijelaskan mengenai implementasi analisis PCA terhadap data saham Bursa Efek Indonesia (BEI) serta hasil dan pembahasan dari analisis tersebut.
+
+\subsection{Implementasi Kode}
+Pada implementasi, digunakan bahasa pemrograman Python dengan \textit{library} seperti Numpy, Pandas, dan Scikit-learn untuk melakukan analisis PCA. Seluruh data saham diambil dari website PT Bursa Efek Indonesia. Penjelasan mengenai kode implementasi adalah sebagai berikut:
+
+\subsubsection{Loading dan Cleansing Data}
+\begin{lstlisting}[language=Python, basicstyle=\ttfamily\scriptsize, breaklines=true]
+    def dataLoadingnCleansing(dataDir: Path):
+        csvs = sorted([p for p in dataDir.glob("*.csv")])
+        frames = []
+        for csvPath in csvs:
+            ticker = csvPath.stem
+            df =  pd.read_csv(csvPath)[["date", "close"]]
+            df["date"] = pd.to_datetime(df["date"])
+            df = df.rename(columns={"close": ticker}).set_index("date")
+            frames.append(df)
+        
+        harga = pd.concat(frames, axis=1, join="outer")
+        harga = harga.loc[:, harga.notna().mean() >= 0.7]
+        harga = harga.sort_index().ffill().dropna()
+        return harga
+\end{lstlisting}
+Pada bagian ini, atribut yang diambil hanya dua, yaitu kolom \textit{date} dan \textit{close} atau harga penutupan saham. Perusahaan yang memiliki data kosong lebih dari 30\% akan dihapus dari dataset. Kemudian, data yang kosong akan ditangani dengan metode \textit{forward fill}, yaitu mengisi data kosong dengan hari sebelumnya.
+
+\subsubsection{Persiapan Data \textit{Return}}
+\begin{lstlisting}[language=Python, basicstyle=\ttfamily\scriptsize, breaklines=true]
+    def persiapanReturn(harga):
+        logReturn = np.log(harga / harga.shift(1)).dropna()
+        scaler = StandardScaler()
+        scaled_returns = scaler.fit_transform(logReturn)
+        return logReturn, scaled_returns
+\end{lstlisting}
+Tahap berikutnya adalah melakukan transformasi data harga saham mentah menjadi data \textit{return} dengan menggunakan rumus \textit{log return}. Setelah itu, data \textit{return} distandarisasi menggunakan \textit{StandardScaler} dari \textit{library} Scikit-learn. Langkah ini berguna untuk menghilangkan bias volatilitas antar saham.
+
+\subsubsection{\textit{Scree Plot}}
+\begin{lstlisting}[language=Python, basicstyle=\ttfamily\scriptsize, breaklines=true]
+    def visualisasiPlotScree(pca, outdir):
+        var_exp = pca.explained_variance_ratio_
+        plt.figure(figsize=(10, 5))
+        plt.bar(range(1, len(var_exp)+1), var_exp, color="#4C72B0", label="Varians per PC")
+        plt.plot(range(1, len(var_exp)+1), np.cumsum(var_exp), "o--", color="#55A868", label="Kumulatif")
+        plt.title("Scree Plot: Penjelasan Varians Risiko")
+        plt.xlabel("Komponen Utama (PC)")
+        plt.ylabel("Ratio Varians")
+        plt.legend()
+        plt.savefig(outdir / "hasilScreePlot.png", dpi=150)
+        plt.close()
+\end{lstlisting}
+Bagian ini bertujuan untuk memberikan visualisasi berupa \textit{Scree Plot} yang mengukur seberapa besar setiap komponen utama (PC) menjelaskan varians risiko dalam data saham. Plot ini memberikan panduan dalam menentukan jumlah komponen utama yang optimal untuk dianalisis lebih lanjut.
+
+\subsubsection{\textit{Loading PC1}}
+\begin{lstlisting}[language=Python, basicstyle=\ttfamily\scriptsize, breaklines=true]
+    def visualisasiLoadingsPasar(pca, tickers, outdir):
+        loadingPC1 = pd.DataFrame({"Saham": tickers, "Loading": pca.components_[0]})
+        loadingPC1 = loadingPC1.sort_values("Loading", ascending=False)
+        plt.figure(figsize=(12, 6))
+        sns.barplot(x="Saham", y="Loading", data=loadingPC1, color="#4C72B0")
+        plt.xticks(rotation=90)
+        plt.title("PC1 Loadings: Identifikasi Saham Penggerak Pasar")
+        plt.savefig(outdir / "hasilLoadingsPasar.png", dpi=150)
+        plt.close()
+\end{lstlisting}
+Bagian ini memiliki tujuan untuk memberikan gambaran visual mengenai bobot dari setiap saham dalam komponen utama pertama atau PC1. Visualisasi ini berguna untuk mengidentifikasi saham-saham mana saja yang paling sensitif atau memiliki pengaruh paling besar terhadap pergerakan pasar secara umum.
+
+\subsubsection{Peta Korelasi Sektoral atau \textit{Heatmap Loadings PC1-PC3}}
+\begin{lstlisting}[language=Python, basicstyle=\ttfamily\scriptsize, breaklines=true]
+    def visualisasiHeatmapLoadings(pca, tickers, outdir):
+        loadings = pd.DataFrame(pca.components_[:3, :], index=["PC1 (Market)", "PC2 (Sektor A)", "PC3 (Sektor B)"], columns=tickers)
+        plt.figure(figsize=(12, 6))
+        sns.heatmap(loadings, cmap="coolwarm", center=0, annot=False)
+        plt.title("Heatmap Loadings PC1-PC3: Peta Risiko Sektoral")
+        plt.savefig(outdir / "hasilHeatmapLoadings.png", dpi=150)
+        plt.close()
+\end{lstlisting}
+Bagian ini bertujuan untuk memberikan visualisasi berupa \textit{heatmap} yang digunakan untuk memetakan hubungan antar-sektor pada tiga komponen utama pertama (PC1, PC2, dan PC3). Visualisasi ini membantu dalam mengidentifikasi pola korelasi antar saham berdasarkan sektor industri masing-masing.
+
+\subsubsection{\textit{Optimasi Portofolio}}
+\begin{lstlisting}[language=Python, basicstyle=\ttfamily\scriptsize, breaklines=true]
+    def visualisasiPerformaPortofolio(returns, pca, outdir):
+        ep_cum_rets = pd.DataFrame(index=returns.index)
+        for i in range(3):
+            weights = pca.components_[i]
+            ep_returns = returns.dot(weights) / np.sum(np.abs(weights))
+            ep_cum_rets[f"EP{i+1}"] = (1 + ep_returns).cumprod()
+        plt.figure(figsize=(10, 6))
+        for col in ep_cum_rets.columns:
+            plt.plot(ep_cum_rets.index, ep_cum_rets[col], label=col)
+        plt.title("Performa Eigen-Portfolio PC1-PC3")
+        plt.xlabel("Tanggal")
+        plt.ylabel("Nilai Kumulatif")
+        plt.legend()
+        plt.savefig(outdir / "hasilPerformaPortofolio.png", dpi=150)
+        plt.close()
+\end{lstlisting}
+Bagian terakhir merupakan tahap untuk membuktikan strategi optimasi portofolio berbasis PCA dengan memberikan visualisasi performa dari tiga eigen-portofolio teratas, yaitu PC1, PC2, dan PC3.
+
+\subsection{Hasil dan Pembahasan}
+Bagian ini akan menjelaskan mengenai hasil dari implementasi analisis PCA pada data saham BEI serta pembahasannya. Ada empat hasil utama yang diperoleh dari implementasi ini, yaitu \textit{Scree Plot}, \textit{Loading PC1}, \textit{Heatmap Loadings PC1-PC3}, dan \textit{Optimasi Portofolio}.
+
+\subsubsection{\textit{Scree Plot}}
+Tahap pertama dalam mengidentifikasi struktur risiko pada indeks saham BEI adalah dengan menentukan sejauh mana faktor pasar atau market mode mendominasi pergerakan harga seluruh saham melalui analisis Scree Plot. Berdasarkan hasil ekstraksi dari nilai eigen, grafik ini akan menunjukkan apakah terdapat satu kekuatan tunggal yang mengendalikan bursa atau apakah risiko tersebar secara merata pada berbagai komponen.
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=\linewidth]{../outputs/hailAnalisisSaham/hasilScreePlot.png}
+  \caption{Scree plot komponen utama dari PCA.}
+  \label{Gambar:scree}
+\end{figure}
+Gambar Scree Plot tersebut menunjukkan dua informasi utama:
+\begin{itemize}
+    \item Batang biru, yang menunjukkan presentase variansi yang dijelaskan oleh masing-masing komponen utama (PC1, PC2, PC3 dan seterusnya).
+    \item Garis kumulatif, yang menunjukkan total variansi yang telah dijelaskan hingga komponen tertentu.
+\end{itemize}
+Berdasarkan Scree Plot yang dihasilkan, terlihat bahwa komponen utama pertama (PC1) menjelaskan proporsi variansi terbesar dibandingkan komponen lainnya, yaitu sekitar 20\%. Hal ini adalah bukti bahwa faktor pasar atau market mode memang mendominasi pergerakan harga saham di BEI. Lalu, terdapat penurunan kontribusi variansi yang cukup tajam dari PC1 ke PC2, dan penurunan yang semakin landai pada komponen-komponen berikutnya. Fenomena ini menunjukkan bahwa risiko pasar saham di Indonesia tidak tersebar secara merata, melainkan ada satu faktor utama yang sangat berpengaruh, yaitu market mode. 
+Dalam dunia keuangan, komponen utama pertama hampir selalu diinterpretasikan sebagai faktor pasar. Hal ini terjadi karena sebagian besar saham cenderung bergerak searah ketika pasar mengalami kondisi ekstreme, baik kenaikan ataupun penurunan tajam. Oleh karena itu, hasil Scree Plot ini menguatkan hipotesis bahwa pergerakan harga saham di BEI sangat dipengaruhi oleh faktor pasar secara keseluruhan dilanjutkan dengan faktor-faktor sektoral yang lebih spesifik.
+
+Meskipun PCA menghasilkan banyak komponen utama, tetapi dalam konteks analisis risiko pasar saham, hanya tiga komponen utama pertama (PC1, PC2, dan PC3) yang akan dianalisis lebih lanjut. Alasannya adalah karena PC1 menjelaskan risiko pasar utama, sedangkan PC2 dan PC3 cenderung mengelompokkan saham berdasarkan sektor industri masing-masing. Komponen berikutnya (PC4, PC5, dst) hanya menambhkan informasi yang sangat kecil dan memungkinkan untuk mengandung \textit{noise}.
+
+\subsubsection{PC1 Loadings}
+Setelah mengetahui bahwa ada satu faktor risiko utama yang mendominasi pasar saham BEI, analisis selanjutnya adalah menentukan saham-saham apa saja yang paling sensitif terhadap faktor risiko utama. Hasil PCA diperoleh melalui dekomposisi matriks kovarians return saham yang sudah distandarisasi menjadi pasangan nilai eigen dan vektor eigen. Nilai eigen terbesar menunjukkan besarnya variansi yang dapat dijelaskan oleh komponen utama, yaitu PC1, sehigga PC1 merepresentasikan faktor risiko terbesar. Vektor eigen yang berasosiasi dengan nilai eigen tersebut menunjukkan arah faktor pasar dalam ruang vektor return saham, sementara elemen-elemn vektor eigen (loading) menunjukkan kontribusi dari masing-masing saham terhadap arah risiko tersebut. Oleh karena itu, saham dengan nilai loading PC1 yang lebih besar artinya memiliki sensitivitas yang lebih tinggi terhadap pergerakan pasar secara keseluruhan. 
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=\linewidth]{../outputs/hailAnalisisSaham/hasilLoadingsPasar.png}
+  \caption{Loadings PC1 dari PCA.}
+  \label{Gambar:loadingPC1}
+\end{figure}
+Berdasarkan hasil visualisasi loadings PC1 pada gambar di atas, terlihat bahwa saham BBRI memiliki nilai loading tertinggi, yang berarti bahwa dimensi return BBRI memberikan kontribusi paling signifikan dalam membentuk arah vektor eigen utama. Hasil ini menunjukkan bahwa pergerakan return BBRI sangat sejalan dengan pergerakan pasar secara keseluruhan di BEI, sehingga saham BBRI mempunyai sensitivitas yang tinggi terhadap faktor risiko pasar. Jika pasar sedang runtuh, besar kemungkinan bahwa harga saham BBRI juga akan mengalami penurunan yang tajam. Begitu juga sebaliknya, ketika pasar sedang naik, harga saham BBRI cenderung mengalami kenaikan yang signifikan.
+
+\subsection{Heatmap Loadings PC1-PC3}
+Setelah mengidentifikasi faktor risiko utama melalui PC1, analisis selanjutnya adalah memahami bagaimana saham-saham di BEI dikelompokan berdasarkan sektor industri melalui PC2 dan PC3. Visualisasi heatmap loadings PC1-PC3 bertujuan untuk mengungkapkan interaksi antar-sektor berdasarkan bobot kontribusi masing-masing saham terhadap tiga komponen utama pertama.
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=\linewidth]{../outputs/hailAnalisisSaham/hasilHeatmapLoadings.png}
+  \caption{Heatmap Loadings PC1-PC3 dari PCA.}
+  \label{Gambar:heatmapPC1PC2PC3}
+\end{figure}
+Berdasarkan heatmap di atas, terlihat pola-pola yang menunjukkan bahwa saham-saham tertentu memiliki bobot kontribusi yang serupa pada PC2 dan PC3. Pada PC2 terlihat kontras yang jelas antar kelompok saham, di mana saham sektor keuangan (seperti BBRI, BBNI, BMRI) memiliki bobot positif yang tinggi, sedangkan saham sektor energi (seperti ADRO, ITMG, PTBA) memiliki bobot yang negatif. Hal ini menunjukkan bahwa PC2 merepresentasikan faktor risiko sektoral yang membedakan antara sektor keungan dan sektor energi atau komoditas. Sementara PC3 menunjukkan pola yang berbeda, di mana saham-saham konsumen (seperti UNVR, ICBP, KLBF) memiliki bobot positif yang tinggi, sedangkan saham-saham infrastruktur (TLKM, JSMR, PGAS) memiliki bobot negatif. Ini menyimpulkan bahwa PC3 merepresentasikan faktor risiko sektoral yang membedakan antara sektor konsumen dan sektor infrastruktur.
+
+\subsection{Optimasi Portofolio Berbasis PCA}
+Setelah mengidentifikasi faktor risiko utama dan sektoral melalui PCA, langkah selanjutnya adalah menerapkan hasil analisis ini dalam optimasi portofolio. Optimasi portofolio dapat diartikan sebagai cara membagi uang ke beberapa aset agar risikonya sekecil mungkin  untuk tingkat keuntungan tertentu.
+Optimasi portofolio dalam penelitian ini tidak dilakukan pada tingkat saham individual, melainkan pada tingkat faktor risiko yang diidentifikasi melalui metode \textit{Principal Component Analysis} atau PCA. Secara aljabar geometri, PCA mendekomposisi matriks kovarians return saham menjadi vektor-vektor eigen yang saling ortogonal, di mana tiap vektor eigen merepresentasikan satu arah risiko independen dan nilai eigennya menunjukkan besarnya variansi sepanjang arah tersebut. Dengan membentuk eigen-portofolio berdasarkan vektor eigen utama, maka setiap portofolio merepresentasikan visibilitas murni terhadap satu faktor risiko, seperti faktor pasar (PC1), faktor sektoral keuangan dan komoditas (PC2), dan faktor spesifik infrastruktur dan konsumen (PC3). Optimasi dicapai dengan mengombinasikan eigen-portofolio tersebut sehingga gambaran terhadap risiko pasaar yang dominan dapat dikendalikan, sementara faktor risiko lain yang tidak sepenuhnya berkorelasi dengan pasar dapat tetap dimanfaatkan.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=\linewidth]{../outputs/hailAnalisisSaham/hasilPerformaPortofolio.png}
+  \caption{Performa Portofolio Berbasis PCA.}
+  \label{Gambar:performaPortofolioPCA}
+\end{figure}
+
+Berdasarkan grafik kinerja eigen-portofolio di atas, terlihat bahwa eigen-portofolio PC1 memiliki volatilitas (ukuran seberapa besar dan cepat harga suatu aset dapat berubah dalam periode waktu tertentu) yang tinggi karena sepenuhnya terpapar terhadap fluktuasi pasar, sedangkan eigen-portofolio PC2 dan PC3 menunjukkan karakteristik return yang berbeda dan relatif lebih independen. Secara ekonomi, hal ini menunjukkan bahwa penggabungan eksposur terhadap beberapa faktor risiko utama yang berbeda dapat meningkatkan efisiensi portofolio, karena risiko tidak sepenuhnya berkorelasi satu sama lain. Dengan demikian, optimasi portofolio pada penelitian ini diwujudkan melalui pengalokasian bobot pada faktor-faktor yang saling ortogonal, bukan sekadar melalui diversifikasi pada tingkat saham individual. Pendekatan ini memberikan kerangka yang sistematis untuk memahami dan mengelola risiko portofolio saham di Bursa Efek Indonesia (BEI) dengan mengintegrasikan konsep aljabar linier dan dinamika pasar ke dalam stratregi investasi.
+
+Untuk memperjelas konsep optimalisasi portofolio berbasis PCA, berikut adalah ilustrasi pembentukan portofolio berbasis faktor risiko utama:
+Berdasarkan hasil analisis, faktor pasar (PC1) didominasi oleh saham perbankan, seperti BBRI dan BBCA, yang menunjukkan snesitivitas tinggi terhadap pergerakan pasar secara umum. Oleh karena itu, untuk merepresentasikan eksposur pasar sebesar 50\%, portofolio ini dapat dialokasikan pada saham-saham perbankan tersebut secara proporsional terhadap nilai loading PC1. Selanjutnya, untuk mengurangi risiko pasar yang dominan, sebesar 30\% eksposur dialokasikan pada faktor sektoral keuangan dan komoditas (PC2) karena kedua faktor ini menunjukkan korelasi yang lebih rendah terhadap pasar secara keseluruhan. Contoh saham yang dapat diambil dari faktor ini adalah saham-saham sektor energi seperti ADRO dan ITMG. Sisa 20\% dialokasikan pada faktor sektoral infrastruktur dan konsumen (PC3), yang juga menunjukkan korelasi yang rendah terhadap pasar. Saham-saham seperti TLKM dan UNVR dapat dipilih dari faktor ini. Dengan demikian, portofolio akhir terdiri dari kombinasi saham-saham yang mewakili ketiga faktor risiko utama, dengan bobot yang disesuaikan untuk mencapai diversifikasi optimal dan pengelolaan risiko yang efektif dan efisien.
+
+\section{Kesimpulan}
+Penelitian ini menunjukkan bahwa struktur risiko saham di Bursa Efek Indonesia (BEI) dapat direpresentasikan secara efektif melalui matriks kovarians return saham dan dianalisis menggunakan metode \textit{Principal Component Analysis} atau PCA. Nilai eigend dan vektor eigen dari matriks kovarians menunjukkan bahwa adanya beberapa faktor risiko utama yang mendominasi pergerakan saham di BEI. Faktor pasar (PC1) merupakan faktor risiko terbesar yang mempengaruhi hampir semua saham, diikuti oleh faktor sektoral keuangan dan komoditas (PC2) serta faktor sektoral infrastruktur dan konsumen (PC3). Informasi ini berguna untuk menyusun portofolio yang optimal supaya keuntungan yang diperoleh dapat maksimal dengan risiko yang minimal.
+
+\section{Ucapan Terima Kasih}
+Pertama-tama, saya mengucapkan puji dan syukur kepada Tuhan Yang Maha Esa karna atas penyertaannya saya dapat menyelesaikan makalah berjudul "Analisis Matrix Kovarians Bursa Efek Indonesia
+(BEI) menggunakan PCA untuk Identifikasi Faktor
+Resiko Utama dan Optimasi Portofolio". Terima kasih kepada keluarga serta teman-teman saya yang telah memberikan dukungan selama pengerjaan makalah ini. Selain itu, saya mengucapkan terima kasih kepada dosen pengampu mata kuliah Aljabar Linier dan Geometri, Bapak Dr. Ir. Rinaldi Munir, M.T., yang telah memberikan ilmu dan bimbingan selama perkuliahan dan terutama website-nya yang sangat membantu saya dalam menjalani perkuliahan ini serta dalam penyusunan makalah ini. 
+\section*{Lampiran}
+Berikut saya lampirkan link GitHub repository yang berisi kode program implementasi dari penelitian ini.
+\begin{itemize}
+    \item \url{
+\section*{Daftar Pustaka}
+\section*{Pernyataan}
+
+
+The preferred spelling of the word ``acknowledgment'' in America is without 
+an ``e'' after the ``g''. Avoid the stilted expression ``one of us (R. B. 
+G.) thanks $\ldots$''. Instead, try ``R. B. G. thanks$\ldots$''. Put sponsor 
+acknowledgments in the unnumbered footnote on the first page.
+
+\section*{References}
+
+Please number citations consecutively within brackets \cite{b1}. The 
+sentence punctuation follows the bracket \cite{b2}. Refer simply to the reference 
+number, as in \cite{b3}---do not use ``Ref. \cite{b3}'' or ``reference \cite{b3}'' except at 
+the beginning of a sentence: ``Reference \cite{b3} was the first $\ldots$''
+
+Number footnotes separately in superscripts. Place the actual footnote at 
+the bottom of the column in which it was cited. Do not put footnotes in the 
+abstract or reference list. Use letters for table footnotes.
+
+Unless there are six authors or more give all authors' names; do not use 
+``et al.''. Papers that have not been published, even if they have been 
+submitted for publication, should be cited as ``unpublished'' \cite{b4}. Papers 
+that have been accepted for publication should be cited as ``in press'' \cite{b5}. 
+Capitalize only the first word in a paper title, except for proper nouns and 
+element symbols.
+
+For papers published in translation journals, please give the English 
+citation first, followed by the original foreign-language citation \cite{b6}.
+
+\begin{thebibliography}{00}
+\bibitem{b1} G. Eason, B. Noble, and I. N. Sneddon, ``On certain integrals of Lipschitz-Hankel type involving products of Bessel functions,'' Phil. Trans. Roy. Soc. London, vol. A247, pp. 529--551, April 1955.
+\bibitem{b2} J. Clerk Maxwell, A Treatise on Electricity and Magnetism, 3rd ed., vol. 2. Oxford: Clarendon, 1892, pp.68--73.
+\bibitem{b3} I. S. Jacobs and C. P. Bean, ``Fine particles, thin films and exchange anisotropy,'' in Magnetism, vol. III, G. T. Rado and H. Suhl, Eds. New York: Academic, 1963, pp. 271--350.
+\bibitem{b4} K. Elissa, ``Title of paper if known,'' unpublished.
+\bibitem{b5} R. Nicole, ``Title of paper with only first word capitalized,'' J. Name Stand. Abbrev., in press.
+\bibitem{b6} Y. Yorozu, M. Hirano, K. Oka, and Y. Tagawa, ``Electron spectroscopy studies on magneto-optical media and plastic substrate interface,'' IEEE Transl. J. Magn. Japan, vol. 2, pp. 740--741, August 1987 [Digests 9th Annual Conf. Magnetics Japan, p. 301, 1982].
+\bibitem{b7} M. Young, The Technical Writer's Handbook. Mill Valley, CA: University Science, 1989.
+\bibitem{b8} D. P. Kingma and M. Welling, ``Auto-encoding variational Bayes,'' 2013, arXiv:1312.6114. [Online]. Available: https://arxiv.org/abs/1312.6114
+\bibitem{b9} S. Liu, ``Wi-Fi Energy Detection Testbed (12MTC),'' 2023, gitHub repository. [Online]. Available: https://github.com/liustone99/Wi-Fi-Energy-Detection-Testbed-12MTC
+\bibitem{b10} ``Treatment episode data set: discharges (TEDS-D): concatenated, 2006 to 2009.'' U.S. Department of Health and Human Services, Substance Abuse and Mental Health Services Administration, Office of Applied Studies, August, 2013, DOI:10.3886/ICPSR30122.v2
+\bibitem{b11} K. Eves and J. Valasek, ``Adaptive control for singularly perturbed systems examples,'' Code Ocean, Aug. 2023. [Online]. Available: https://codeocean.com/capsule/4989235/tree
+\end{thebibliography}
+
+\vspace{12pt}
+\color{red}
+IEEE conference templates contain guidance text for composing and formatting conference papers. Please ensure that all template text is removed from your conference paper prior to submission to the conference. Failure to remove the template text from your paper may result in your paper not being published.
+
+\end{document}
