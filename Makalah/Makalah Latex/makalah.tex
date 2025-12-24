@@ -61,7 +61,7 @@
 \title{Analisis Matrix Kovarians Bursa Efek Indonesia (BEI) menggunakan PCA untuk Identifikasi Faktor Risiko Utama dan Optimasi Portofolio\\
 }
 
-\author{\IEEEauthorblockN{Juan Oloando Simanungkalit}
+\author{\IEEEauthorblockN{Juan Oloando Simanungkalit - 13524032}
 \IEEEauthorblockA{\textit{Program Studi Teknik Informatika} \\
 \textit{Sekolah Teknik Elektro Dan Informatika}\\
 Institut Teknologi Bandung, Jl. Ganesha 10 Bandung 40132, Indonesia \\
@@ -75,7 +75,7 @@ Makalah ini menganalisis struktur risiko pada pasar saham Indonesia dengan meman
 \end{abstract}
 
 \section{Pendahuluan}
-Pada era modern, investasi merupakan salah satu cara untuk menambahkan kekayaan tanpa harus bekerja lebih keras atau masyarakat menyebutnya dengan \textit{passive income}. Salah satu instrumen dalam investasi adalah saham. Investasi saham adalah penanaman modal dalam bentuk penyertaan sejumlah dana oleh seseorang atau badan usaha yang mana melalui instrumen tersebut investor memiliki klaim atas aset dan penghasilan perusahaan serta berhak menghadiri Rapat Umum Pemegang Saham (RUPS). Dalam dunia saham ada yang disebut dengan portofolio, yaitu sekumpulan aset investasi yang dimiliki oleh seorang investor. Portofolio akan menentukan \textit{return} atau imbal hasil yang diinginkan seorang investir agar optimal. Ada tiga faktor utama yakni modal, tujuan dan risiko. 
+Pada era modern, investasi merupakan salah satu cara untuk menambahkan kekayaan tanpa harus bekerja lebih keras atau masyarakat menyebutnya dengan \textit{passive income}. Salah satu instrumen dalam investasi adalah saham. Investasi saham adalah penanaman modal dalam bentuk penyertaan sejumlah dana oleh seseorang atau badan usaha yang mana melalui instrumen tersebut investor memiliki klaim atas aset dan penghasilan perusahaan serta berhak menghadiri Rapat Umum Pemegang Saham (RUPS). Dalam dunia saham ada yang disebut dengan portofolio, yaitu sekumpulan aset investasi yang dimiliki oleh seorang investor. Portofolio akan menentukan \textit{return} atau imbal hasil yang diinginkan seorang investor agar optimal. Ada tiga faktor utama yakni modal, tujuan dan risiko. 
 
 Risiko adalah ketidakpastian terhadap hasil yang diharapkan dari suatu investasi. Dalam konteks investasi saham, risiko mengacu pada kemungkinan fluktuasi nilai saham yang dapat menyebabkan kerugian bagi investor. Risiko ini dapat berasal dari berbagai faktor, termasuk perubahan kondisi pasar, kinerja perusahaan, dan faktor eksternal lainnya. 
 
@@ -129,7 +129,7 @@ Dalam pasar modal, pergerakan harga saham dipengaruhi oleh informasi yang masuk 
     \item Membangun matriks kovarians dari pengembalian saham untuk memahami hubungan antar saham.
     \item Menerapkan PCA pada matriks kovarians untuk mengidentifikasi faktor risiko utama yang mempengaruhi pergerakan harga saham.
 \end{enumerate}
-Intepretasi nilai eigen dan vektor eigen dalam konteks ini adalah sebagai berikut:
+Interpretasi nilai eigen dan vektor eigen dalam konteks ini adalah sebagai berikut:
 \begin{itemize}
     \item \textbf{Model Pasar (\textit{Market Mode})}: Nilai eigen terbesar ($\lambda_1$) dari matriks korelasi saham secara konsisten ditemukan jauh lebih besar daripada prediksi acak. Vektor eigen yang bersesuaian memiliki komponen yang seragam untuk semua saham, menunjukkan bahwa faktor risiko utama ini mencerminkan pergerakan pasar secara keseluruhan.
     \item \textbf{Identifikasi Sektor Industri}: Nilai eigen tersebesar berikutnya ($\lambda_1, \lambda_2, \ldots$) sering kali mengelompokkan saham berdasarkan sektor industri. Vektor-vektor eigen ini menunjukkan bahwa saham-saham dalam sektor yang sama cenderung bergerak bersama, mencerminkan sensitivitas mereka terhadap faktor risiko spesifik sektor.
@@ -137,7 +137,7 @@ Intepretasi nilai eigen dan vektor eigen dalam konteks ini adalah sebagai beriku
 \end{itemize}
 
 \subsection{Eigen-Portfolio dan Optimasi Portofolio Berbasis PCA}
-Dalam konteks teori portofolio modern, risiko dari portofolio tidak hanya ditentukan oleh violitas (seberapa liat atau tidak stabil harga suatu ase dalam waktu tertentu) dari tiap aset, ada juga faktor penentu lainnya, yaitu struktur korelasi antar aset yang digambarkan atau direpresentasikan dalam bentuk matriks kovarians. Untuk suatu portofolio dengan vektor bobot $\mathbf{w}$, 
+Dalam konteks teori portofolio modern, risiko dari portofolio tidak hanya ditentukan oleh volatilitas (seberapa liat atau tidak stabil harga suatu ase dalam waktu tertentu) dari tiap aset, ada juga faktor penentu lainnya, yaitu struktur korelasi antar aset yang digambarkan atau direpresentasikan dalam bentuk matriks kovarians. Untuk suatu portofolio dengan vektor bobot $\mathbf{w}$, 
 \[
 \mathbf{w} = (w_1, w_2, \ldots, w_n)^T
 \]
@@ -317,9 +317,9 @@ Gambar Scree Plot tersebut menunjukkan dua informasi utama:
     \item Garis kumulatif, yang menunjukkan total variansi yang telah dijelaskan hingga komponen tertentu.
 \end{itemize}
 Berdasarkan Scree Plot yang dihasilkan, terlihat bahwa komponen utama pertama (PC1) menjelaskan proporsi variansi terbesar dibandingkan komponen lainnya, yaitu sekitar 20\%. Hal ini adalah bukti bahwa faktor pasar atau market mode memang mendominasi pergerakan harga saham di BEI. Lalu, terdapat penurunan kontribusi variansi yang cukup tajam dari PC1 ke PC2, dan penurunan yang semakin landai pada komponen-komponen berikutnya. Fenomena ini menunjukkan bahwa risiko pasar saham di Indonesia tidak tersebar secara merata, melainkan ada satu faktor utama yang sangat berpengaruh, yaitu market mode. 
-Dalam dunia keuangan, komponen utama pertama hampir selalu diinterpretasikan sebagai faktor pasar. Hal ini terjadi karena sebagian besar saham cenderung bergerak searah ketika pasar mengalami kondisi ekstreme, baik kenaikan ataupun penurunan tajam. Oleh karena itu, hasil Scree Plot ini menguatkan hipotesis bahwa pergerakan harga saham di BEI sangat dipengaruhi oleh faktor pasar secara keseluruhan dilanjutkan dengan faktor-faktor sektoral yang lebih spesifik.
+Dalam dunia keuangan, komponen utama pertama hampir selalu diinterpretasikan sebagai faktor pasar. Hal ini terjadi karena sebagian besar saham cenderung bergerak searah ketika pasar mengalami kondisi ekstrem, baik kenaikan ataupun penurunan tajam. Oleh karena itu, hasil Scree Plot ini menguatkan hipotesis bahwa pergerakan harga saham di BEI sangat dipengaruhi oleh faktor pasar secara keseluruhan dilanjutkan dengan faktor-faktor sektoral yang lebih spesifik.
 
-Meskipun PCA menghasilkan banyak komponen utama, tetapi dalam konteks analisis risiko pasar saham, hanya tiga komponen utama pertama (PC1, PC2, dan PC3) yang akan dianalisis lebih lanjut. Alasannya adalah karena PC1 menjelaskan risiko pasar utama, sedangkan PC2 dan PC3 cenderung mengelompokkan saham berdasarkan sektor industri masing-masing. Komponen berikutnya (PC4, PC5, dst) hanya menambhkan informasi yang sangat kecil dan memungkinkan untuk mengandung \textit{noise}.
+Meskipun PCA menghasilkan banyak komponen utama, tetapi dalam konteks analisis risiko pasar saham, hanya tiga komponen utama pertama (PC1, PC2, dan PC3) yang akan dianalisis lebih lanjut. Alasannya adalah karena PC1 menjelaskan risiko pasar utama, sedangkan PC2 dan PC3 cenderung mengelompokkan saham berdasarkan sektor industri masing-masing. Komponen berikutnya (PC4, PC5, dst) hanya menambahkan informasi yang sangat kecil dan memungkinkan untuk mengandung \textit{noise}.
 
 \subsubsection{PC1 Loadings}
 Setelah mengetahui bahwa ada satu faktor risiko utama yang mendominasi pasar saham BEI, analisis selanjutnya adalah menentukan saham-saham apa saja yang paling sensitif terhadap faktor risiko utama. Hasil PCA diperoleh melalui dekomposisi matriks kovarians return saham yang sudah distandarisasi menjadi pasangan nilai eigen dan vektor eigen. Nilai eigen terbesar menunjukkan besarnya variansi yang dapat dijelaskan oleh komponen utama, yaitu PC1, sehigga PC1 merepresentasikan faktor risiko terbesar. Vektor eigen yang berasosiasi dengan nilai eigen tersebut menunjukkan arah faktor pasar dalam ruang vektor return saham, sementara elemen-elemn vektor eigen (loading) menunjukkan kontribusi dari masing-masing saham terhadap arah risiko tersebut. Oleh karena itu, saham dengan nilai loading PC1 yang lebih besar artinya memiliki sensitivitas yang lebih tinggi terhadap pergerakan pasar secara keseluruhan. 
@@ -343,7 +343,7 @@ Berdasarkan heatmap di atas, terlihat pola-pola yang menunjukkan bahwa saham-sah
 
 \subsection{Optimasi Portofolio Berbasis PCA}
 Setelah mengidentifikasi faktor risiko utama dan sektoral melalui PCA, langkah selanjutnya adalah menerapkan hasil analisis ini dalam optimasi portofolio. Optimasi portofolio dapat diartikan sebagai cara membagi uang ke beberapa aset agar risikonya sekecil mungkin  untuk tingkat keuntungan tertentu.
-Optimasi portofolio dalam penelitian ini tidak dilakukan pada tingkat saham individual, melainkan pada tingkat faktor risiko yang diidentifikasi melalui metode \textit{Principal Component Analysis} atau PCA. Secara aljabar geometri, PCA mendekomposisi matriks kovarians return saham menjadi vektor-vektor eigen yang saling ortogonal, di mana tiap vektor eigen merepresentasikan satu arah risiko independen dan nilai eigennya menunjukkan besarnya variansi sepanjang arah tersebut. Dengan membentuk eigen-portofolio berdasarkan vektor eigen utama, maka setiap portofolio merepresentasikan visibilitas murni terhadap satu faktor risiko, seperti faktor pasar (PC1), faktor sektoral keuangan dan komoditas (PC2), dan faktor spesifik infrastruktur dan konsumen (PC3). Optimasi dicapai dengan mengombinasikan eigen-portofolio tersebut sehingga gambaran terhadap risiko pasaar yang dominan dapat dikendalikan, sementara faktor risiko lain yang tidak sepenuhnya berkorelasi dengan pasar dapat tetap dimanfaatkan.
+Optimasi portofolio dalam penelitian ini tidak dilakukan pada tingkat saham individual, melainkan pada tingkat faktor risiko yang diidentifikasi melalui metode \textit{Principal Component Analysis} atau PCA. Secara aljabar geometri, PCA mendekomposisi matriks kovarians return saham menjadi vektor-vektor eigen yang saling ortogonal, di mana tiap vektor eigen merepresentasikan satu arah risiko independen dan nilai eigennya menunjukkan besarnya variansi sepanjang arah tersebut. Dengan membentuk eigen-portofolio berdasarkan vektor eigen utama, maka setiap portofolio merepresentasikan visibilitas murni terhadap satu faktor risiko, seperti faktor pasar (PC1), faktor sektoral keuangan dan komoditas (PC2), dan faktor spesifik infrastruktur dan konsumen (PC3). Optimasi dicapai dengan mengombinasikan eigen-portofolio tersebut sehingga gambaran terhadap risiko pasar yang dominan dapat dikendalikan, sementara faktor risiko lain yang tidak sepenuhnya berkorelasi dengan pasar dapat tetap dimanfaatkan.
 
 \begin{figure}[H]
   \centering
@@ -355,39 +355,40 @@ Optimasi portofolio dalam penelitian ini tidak dilakukan pada tingkat saham indi
 Berdasarkan grafik kinerja eigen-portofolio di atas, terlihat bahwa eigen-portofolio PC1 memiliki volatilitas (ukuran seberapa besar dan cepat harga suatu aset dapat berubah dalam periode waktu tertentu) yang tinggi karena sepenuhnya terpapar terhadap fluktuasi pasar, sedangkan eigen-portofolio PC2 dan PC3 menunjukkan karakteristik return yang berbeda dan relatif lebih independen. Secara ekonomi, hal ini menunjukkan bahwa penggabungan eksposur terhadap beberapa faktor risiko utama yang berbeda dapat meningkatkan efisiensi portofolio, karena risiko tidak sepenuhnya berkorelasi satu sama lain. Dengan demikian, optimasi portofolio pada penelitian ini diwujudkan melalui pengalokasian bobot pada faktor-faktor yang saling ortogonal, bukan sekadar melalui diversifikasi pada tingkat saham individual. Pendekatan ini memberikan kerangka yang sistematis untuk memahami dan mengelola risiko portofolio saham di Bursa Efek Indonesia (BEI) dengan mengintegrasikan konsep aljabar linier dan dinamika pasar ke dalam stratregi investasi.
 
 Untuk memperjelas konsep optimalisasi portofolio berbasis PCA, berikut adalah ilustrasi pembentukan portofolio berbasis faktor risiko utama:
-Berdasarkan hasil analisis, faktor pasar (PC1) didominasi oleh saham perbankan, seperti BBRI dan BBCA, yang menunjukkan snesitivitas tinggi terhadap pergerakan pasar secara umum. Oleh karena itu, untuk merepresentasikan eksposur pasar sebesar 50\%, portofolio ini dapat dialokasikan pada saham-saham perbankan tersebut secara proporsional terhadap nilai loading PC1. Selanjutnya, untuk mengurangi risiko pasar yang dominan, sebesar 30\% eksposur dialokasikan pada faktor sektoral keuangan dan komoditas (PC2) karena kedua faktor ini menunjukkan korelasi yang lebih rendah terhadap pasar secara keseluruhan. Contoh saham yang dapat diambil dari faktor ini adalah saham-saham sektor energi seperti ADRO dan ITMG. Sisa 20\% dialokasikan pada faktor sektoral infrastruktur dan konsumen (PC3), yang juga menunjukkan korelasi yang rendah terhadap pasar. Saham-saham seperti TLKM dan UNVR dapat dipilih dari faktor ini. Dengan demikian, portofolio akhir terdiri dari kombinasi saham-saham yang mewakili ketiga faktor risiko utama, dengan bobot yang disesuaikan untuk mencapai diversifikasi optimal dan pengelolaan risiko yang efektif dan efisien.
+Berdasarkan hasil analisis, faktor pasar (PC1) didominasi oleh saham perbankan, seperti BBRI dan BBCA, yang menunjukkan sensitivitas tinggi terhadap pergerakan pasar secara umum. Oleh karena itu, untuk merepresentasikan eksposur pasar sebesar 50\%, portofolio ini dapat dialokasikan pada saham-saham perbankan tersebut secara proporsional terhadap nilai loading PC1. Selanjutnya, untuk mengurangi risiko pasar yang dominan, sebesar 30\% eksposur dialokasikan pada faktor sektoral keuangan dan komoditas (PC2) karena kedua faktor ini menunjukkan korelasi yang lebih rendah terhadap pasar secara keseluruhan. Contoh saham yang dapat diambil dari faktor ini adalah saham-saham sektor energi seperti ADRO dan ITMG. Sisa 20\% dialokasikan pada faktor sektoral infrastruktur dan konsumen (PC3), yang juga menunjukkan korelasi yang rendah terhadap pasar. Saham-saham seperti TLKM dan UNVR dapat dipilih dari faktor ini. Dengan demikian, portofolio akhir terdiri dari kombinasi saham-saham yang mewakili ketiga faktor risiko utama, dengan bobot yang disesuaikan untuk mencapai diversifikasi optimal dan pengelolaan risiko yang efektif dan efisien.
 
 \section{Kesimpulan}
-Penelitian ini menunjukkan bahwa struktur risiko saham di Bursa Efek Indonesia (BEI) dapat direpresentasikan secara efektif melalui matriks kovarians return saham dan dianalisis menggunakan metode \textit{Principal Component Analysis} atau PCA. Nilai eigend dan vektor eigen dari matriks kovarians menunjukkan bahwa adanya beberapa faktor risiko utama yang mendominasi pergerakan saham di BEI. Faktor pasar (PC1) merupakan faktor risiko terbesar yang mempengaruhi hampir semua saham, diikuti oleh faktor sektoral keuangan dan komoditas (PC2) serta faktor sektoral infrastruktur dan konsumen (PC3). Informasi ini berguna untuk menyusun portofolio yang optimal supaya keuntungan yang diperoleh dapat maksimal dengan risiko yang minimal.
+Penelitian ini menunjukkan bahwa struktur risiko saham di Bursa Efek Indonesia (BEI) dapat direpresentasikan secara efektif melalui matriks kovarians return saham dan dianalisis menggunakan metode \textit{Principal Component Analysis} atau PCA. Nilai eigen dan vektor eigen dari matriks kovarians menunjukkan bahwa adanya beberapa faktor risiko utama yang mendominasi pergerakan saham di BEI. Faktor pasar (PC1) merupakan faktor risiko terbesar yang mempengaruhi hampir semua saham, diikuti oleh faktor sektoral keuangan dan komoditas (PC2) serta faktor sektoral infrastruktur dan konsumen (PC3). Informasi ini berguna untuk menyusun portofolio yang optimal supaya keuntungan yang diperoleh dapat maksimal dengan risiko yang minimal.
 
 \section{Ucapan Terima Kasih}
-Pertama-tama, saya mengucapkan puji dan syukur kepada Tuhan Yang Maha Esa karna atas penyertaannya saya dapat menyelesaikan makalah berjudul "Analisis Matrix Kovarians Bursa Efek Indonesia
+Pertama-tama, saya mengucapkan puji dan syukur kepada Tuhan Yang Maha Esa karena atas penyertaan-Nya saya dapat menyelesaikan makalah berjudul "Analisis Matrix Kovarians Bursa Efek Indonesia
 (BEI) menggunakan PCA untuk Identifikasi Faktor
 Resiko Utama dan Optimasi Portofolio". Terima kasih kepada keluarga serta teman-teman saya yang telah memberikan dukungan selama pengerjaan makalah ini. Selain itu, saya mengucapkan terima kasih kepada dosen pengampu mata kuliah Aljabar Linier dan Geometri, Bapak Dr. Ir. Rinaldi Munir, M.T., yang telah memberikan ilmu dan bimbingan selama perkuliahan dan terutama website-nya yang sangat membantu saya dalam menjalani perkuliahan ini serta dalam penyusunan makalah ini. 
 
 \section*{Lampiran}
-Berikut saya lampirkan link GitHub repository yang berisi kode program implementasi dari penelitian ini.
+Berikut saya lampirkan link GitHub repository yang berisi kode program implementasi dari penelitian ini dan video.
 \begin{itemize}
     \item GitHub Repository: \url{https://github.com/juanoloando/Tugas-Makalah-Aljabar-Linier-dan-Geometri}
+    \item Video: \url{https://drive.google.com/file/d/16m8HCd9bnqZHceVHpGc4r0OLEPEeMdkE/view?usp=sharing} (Izin pakai Google Drive karena hanya akun yang terverifikasi yangdapat mengunggah video berdurasi lebih dari 15 menit di YouTube)
 \end{itemize}
 
 \begin{thebibliography}{00}
 \bibitem{b1} CRMS Indonesia, "Mengenal Portofolio dan Risiko Investasi," 2023. [Online]. Tersedia: \url{https://crmsindonesia.org/publications/mengenal-portofolio-dan-risiko-investasi/}. [Diakses: 22-Des-2025].
 
-\bibitem{b2} PT Bursa Efek Indonesia, "Data Pasar dan Laporan Perusahaan," 2025. [Online]. Tersedia: \url{https://www.idx.co.id/id}. [Diakses: 22-Des-2025].
+\bibitem{b2} PT Bursa Efek Indonesia, "Data Pasar dan Laporan Perusahaan," 2025. [Online]. Tersedia: \url{https://www.idx.co.id/id}. [Diakses: 20-Des-2025].
 
 \bibitem{b3} OCBC Indonesia, "Investasi Saham adalah: Pengertian, Keuntungan, \& Cara Main," 2021. [Online]. Tersedia: \url{https://www.ocbc.id/id/article/2021/12/27/investasi-saham-adalah}. [Diakses: 23-Des-2025].
 
-\bibitem{b4} Z. Jaadi, "A Step-by-Step Explanation of Principal Component Analysis (PCA)," Built In, 2024. [Online]. Tersedia: \url{https://builtin.com/data-science/step-step-explanation-principal-component-analysis}. [Diakses: 24-Des-2025].
+\bibitem{b4} Z. Jaadi, "A Step-by-Step Explanation of Principal Component Analysis (PCA)," Built In, 2024. [Online]. Tersedia: \url{https://builtin.com/data-science/step-step-explanation-principal-component-analysis}. [Diakses: 22-Des-2025].
 
-\bibitem{b5} Exsight Indonesia, "PCA (Principal Component Analysis): Pengertian, Cara Kerja, dan Contoh," 2023. [Online]. Tersedia: \url{https://exsight.id/blog/2023/11/06/pca-principal-component-analysis/}. [Diakses: 24-Des-2025].
+\bibitem{b5} Exsight Indonesia, "PCA (Principal Component Analysis): Pengertian, Cara Kerja, dan Contoh," 2023. [Online]. Tersedia: \url{https://exsight.id/blog/2023/11/06/pca-principal-component-analysis/}. [Diakses: 22-Des-2025].
 
-\bibitem{b6} Z. Jaadi, "A Guide to the Covariance Matrix," Built In, 2024. [Online]. Tersedia: \url{https://builtin.com/data-science/covariance-matrix}. [Diakses: 24-Des-2025].
+\bibitem{b6} Z. Jaadi, "A Guide to the Covariance Matrix," Built In, 2024. [Online]. Tersedia: \url{https://builtin.com/data-science/covariance-matrix}. [Diakses: 22-Des-2025].
 
 \end{thebibliography}
 
 \section*{Pernyataan}
-Dengan ini saya menyatakan bahwa makalah yang saya tulis ini adalah tulisan saya sendiri, bukan saduran, atau terjemahan dari makalah orang lain, dan bukan plagiasi. Saya juga menyatakan bahwa saya menggunakan Gen AI sebagai alat bantu untuk memperaiki tata kalimat dan ejaan.
+Dengan ini saya menyatakan bahwa makalah yang saya tulis ini adalah tulisan saya sendiri, bukan saduran, atau terjemahan dari makalah orang lain, dan bukan plagiasi. Saya juga menyatakan bahwa saya menggunakan Gen AI sebagai alat bantu untuk memperbaiki tata kalimat dan ejaan.
 
 \begin{flushright}
 Jakarta, 24 Desember 2025\\[0.8em]
